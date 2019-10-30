@@ -1,0 +1,39 @@
+package 矩阵乘法.java;
+@ singleThread(matrix1, int matrix2, int res1) {
+int tmp=0, i, j, k;
+for(i=0;i<M;i++) {
+for(k=0;k<P;k++) {
+tmp=0;
+for(j=0;j<N;j++) {
+tmp += matrix1[i][j]matrix2[j][k];
+}
+res1[i][k]=tmp;
+}
+}
+}
+void calc(void rs) {
+Rows rows = (Rows )rs;
+int tmp, i, k, j;
+for(i=rows->row1; i<rows->row2; i++) {
+for(k=0;k<P;k++) {
+tmp=0;
+for(j=0;j<N;j++) {
+tmp += matrix1[i][j] matrix2[j][k];
+}
+res2[i][k]=tmp;
+}
+}
+}
+
+void mutipleThread() {
+pthread_t threads[T];
+Rows rows[T];
+for(int i=0;i<T;i++) {
+rows[i].row1=i(M/T);
+rows[i].row2=(i+1)(M/T);
+pthread_create(&threads[i], NULL, calc, &rows[i]);
+}
+for(int i=0;i<T;i++) {
+pthread_join(threads[i], NULL);
+}
+}
